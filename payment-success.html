@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Payment Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f7f7f7;
+            overflow: hidden; /* Prevent scrolling issues */
+        }
+        .message {
+            text-align: center;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            max-width: 90%;
+            word-wrap: break-word; /* Ensure text does not overflow */
+        }
+        button {
+            background-color: #4CAF50; 
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 80%; /* Full-width for smaller screens */
+            max-width: 300px;
+            text-align: center;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="message" id="paymentMessage">
+        <!-- Payment status message will be displayed here -->
+    </div>
+
+    <!-- OK Button -->
+    <button id="okButton" onclick="redirectToQRPayment()">OK</button>
+
+    <script>
+        // Get the query parameter "status" from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const status = urlParams.get('status');
+
+        // Display payment success or failure message based on the status
+        const paymentMessage = document.getElementById('paymentMessage');
+        if (status === 'success') {
+            paymentMessage.innerHTML = "<h2>Payment Successful!</h2><p>Thank you for your purchase.</p>";
+        } else {
+            paymentMessage.innerHTML = "<h2>Payment Failed!</h2><p>Please try again later.</p>";
+        }
+
+        // Redirect to QRPayment.java after clicking OK
+        function redirectToQRPayment() {
+            alert("Redirecting back to the application...");
+            // Normally, you'd redirect to the app or another endpoint
+            window.location.href = "QRPayment.java"; // Replace with your app or backend URL
+        }
+
+        // Ensure button is visible on load
+        const okButton = document.getElementById('okButton');
+        okButton.style.display = "block";
+    </script>
+
+</body>
+</html>
