@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Payment Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f7f7f7;
+            overflow: hidden;
+        }
+        .message {
+            text-align: center;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            max-width: 90%;
+            word-wrap: break-word;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 80%;
+            max-width: 300px;
+            text-align: center;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="message" id="paymentMessage">
+        <!-- Payment status message will be displayed here -->
+    </div>
+
+    <!-- OK Button -->
+    <button id="okButton" onclick="confirmPayment()">OK</button>
+
+    <script>
+        // Get the query parameter "status" from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const status = urlParams.get('status');
+
+        // Display payment success or failure message based on the status
+        const paymentMessage = document.getElementById('paymentMessage');
+        if (status === 'success') {
+            paymentMessage.innerHTML = "<h2>Payment Successful!</h2><p>Thank you for your purchase.</p>";
+        } else {
+            paymentMessage.innerHTML = "<h2>Payment Failed!</h2><p>Please try again later.</p>";
+        }
+
+        // Function to confirm payment by sending a request to the Java server
+        function confirmPayment() {
+            console.log("Sending POST request to confirm payment...");
+            fetch('http://localhost:8081/confirm', {
+                method: 'POST', // POST method
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({status: 'success'}) // Send success status
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log("Server response:", data);
+                alert("Payment Confirmed and Success Message Triggered!");
+                window.location.href = "QRPayment.java"; // Navigate back to the QR payment page or handle differently
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+
+</body>
+</html>
