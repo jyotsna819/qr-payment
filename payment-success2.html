@@ -14,7 +14,7 @@
             min-height: 100vh;
             margin: 0;
             background-color: #f7f7f7;
-            overflow: hidden;
+            overflow: hidden; /* Prevent scrolling issues */
         }
         .message {
             text-align: center;
@@ -24,17 +24,17 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
             max-width: 90%;
-            word-wrap: break-word;
+            word-wrap: break-word; /* Ensure text does not overflow */
         }
         button {
-            background-color: #4CAF50;
+            background-color: #4CAF50; 
             color: white;
             padding: 10px 20px;
             border: none;
             cursor: pointer;
             border-radius: 5px;
             font-size: 16px;
-            width: 80%;
+            width: 80%; /* Full-width for smaller screens */
             max-width: 300px;
             text-align: center;
         }
@@ -67,8 +67,7 @@
 
         // Function to confirm payment by sending a request to the Java server
         function confirmPayment() {
-            console.log("Sending POST request to confirm payment...");
-            fetch('http://localhost:8081/confirm', {
+            fetch('http://localhost:8084/confirm', {
                 method: 'POST', // POST method
                 headers: {
                     'Content-Type': 'application/json'
@@ -77,13 +76,10 @@
             })
             .then(response => response.text())
             .then(data => {
-                console.log("Server response:", data);
                 alert("Payment Confirmed and Success Message Triggered!");
                 window.location.href = "QRPayment.java"; // Navigate back to the QR payment page or handle differently
             })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+            .catch(error => console.error('Error:', error));
         }
     </script>
 
