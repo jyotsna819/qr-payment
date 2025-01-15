@@ -50,7 +50,7 @@
     </div>
 
     <!-- OK Button -->
-    <button id="okButton" onclick="redirectToQRPayment()">OK</button>
+    <button id="okButton" onclick="confirmPayment()">OK</button>
 
     <script>
         // Get the query parameter "status" from the URL
@@ -65,16 +65,22 @@
             paymentMessage.innerHTML = "<h2>Payment Failed!</h2><p>Please try again later.</p>";
         }
 
-        // Redirect to QRPayment.java after clicking OK
-        function redirectToQRPayment() {
-            alert("Redirecting back to the application...");
-            // Normally, you'd redirect to the app or another endpoint
-            window.location.href = "QRPayment.java"; // Replace with your app or backend URL
+        // Function to confirm payment by sending a request to the Java server
+        function confirmPayment() {
+            fetch('http://localhost:8081/confirm', {
+                method: 'POST', // POST method
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({status: 'success'}) // Send success status
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert("Payment Confirmed and Success Message Triggered!");
+                window.location.href = "QRPayment.java"; // Navigate back to the QR payment page or handle differently
+            })
+            .catch(error => console.error('Error:', error));
         }
-
-        // Ensure button is visible on load
-        const okButton = document.getElementById('okButton');
-        okButton.style.display = "block";
     </script>
 
 </body>
